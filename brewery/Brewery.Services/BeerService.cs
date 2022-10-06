@@ -34,11 +34,9 @@ namespace Brewery.Services
         public async Task<IList<BeerDetailsWithRatings>> GetList(string name)
         {
             var list = await _beerStorageClient.GetList(name);
+            var ratings = await _localFileRepository.GetAllRatings();
 
-            // todo - read ratings
-
-
-            return list.Select(x => new BeerDetailsWithRatings(x, new List<BeerData>())).ToList();
+            return list.Select(x => new BeerDetailsWithRatings(x, ratings.Where(r => r.Id == x.Id).Select(r => r.Data).ToList())).ToList();
         }
     }
 }

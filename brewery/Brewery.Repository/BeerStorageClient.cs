@@ -1,7 +1,6 @@
 ﻿using Brewery.Exceptions;
 using Brewery.Models.DTO;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -12,15 +11,11 @@ namespace Brewery.Repositories
     /// </summary>
     public class BeerStorageClient : IBeerStorageClient
     {
-        private readonly ILogger<BeerStorageClient> _logger;
         private readonly IConfiguration _configuration;
-        private readonly RestClient _client;
 
-        public BeerStorageClient(ILogger<BeerStorageClient> logger, IConfiguration configuration)
+        public BeerStorageClient(IConfiguration configuration)
         {
-            _logger = logger;
             _configuration = configuration;
-            _client = new RestClient(_configuration["ApiRoot"]);
         }
 
         /// <summary>
@@ -31,6 +26,7 @@ namespace Brewery.Repositories
         /// <exception cref="BeerNotFoundException"></exception>
         public async Task<BeerDetails> GetBeerDetails(int id)
         {
+            using var _client = GetClient();
             var request = new RestRequest($"beers/{id}");
             var response = await _client.GetAsync(request);
 
@@ -42,11 +38,23 @@ namespace Brewery.Repositories
             return null;
         }
 
+        /// <summary>
+        /// Returns all beers matching the supplied name (this will match partial strings as well so e.g punk will return Punk IPA), if you need to add spaces just add an underscore (_).
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BeerDetails>> GetList(string name)
         {
+            using var _client = GetClient();
             var request = new RestRequest($"beers?beer_name={name}");
-            
+
             return await _client.GetAsync<IEnumerable<BeerDetails>>(request);
         }
+
+        /// <summary>
+        /// Initializes new RestClient
+        /// </summary>
+        /// <returns></returns>
+        private RestClient GetClient() => new RestClient(_configuration["ApiRoot"]);
     }
 }

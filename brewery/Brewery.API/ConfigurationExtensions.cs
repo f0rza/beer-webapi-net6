@@ -33,7 +33,7 @@ namespace Brewery.API
         {
             services.AddScoped<IBeerService, BeerService>();
             services.AddScoped<IBeerStorageClient, BeerStorageClient>();
-            services.AddScoped<ILocalFileRepository, LocalFileRepository>();
+            services.AddSingleton<ILocalFileRepository, LocalFileRepository>();
         }
     }
 }

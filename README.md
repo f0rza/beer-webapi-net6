@@ -1,13 +1,13 @@
 ﻿# Exercise: Beer rating 
 
-Implementation done in .NET 6 using Swagger, RestSharp and async calls
+Implementation done in .NET 6 using Swagger, Newtonsoft.JSON, Moq, RestSharp and async calls
 
 #### Third-Party Plugins
 
 * [`RestSharp`](https://www.nuget.org/packages/RestSharp)
 * [`Newtonsoft.JSON`](https://www.nuget.org/packages/Newtonsoft.Json)
+* [`Moq`](https://www.nuget.org/packages/Moq)
 * [`Swagger`](https://www.nuget.org/packages/Swashbuckle.AspNetCore.Swagger)
-
 
 ### Application Config
 

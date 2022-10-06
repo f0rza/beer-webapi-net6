@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brewery.Services", "Brewery
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brewery.Exceptions", "Brewery.Exceptions\Brewery.Exceptions.csproj", "{DE38B225-8EF8-4C64-8F3F-13EA61571FF0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brewery.Services.Tests", "Brewery.Services.Tests\Brewery.Services.Tests.csproj", "{6D03700A-53C6-47EE-B904-21BBA6A1FF5B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brewery.API.Tests", "Brewery.API.Tests\Brewery.API.Tests.csproj", "{7A229447-6EF1-4CB6-9F49-F07218F6AE5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{DE38B225-8EF8-4C64-8F3F-13EA61571FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE38B225-8EF8-4C64-8F3F-13EA61571FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE38B225-8EF8-4C64-8F3F-13EA61571FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D03700A-53C6-47EE-B904-21BBA6A1FF5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D03700A-53C6-47EE-B904-21BBA6A1FF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D03700A-53C6-47EE-B904-21BBA6A1FF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D03700A-53C6-47EE-B904-21BBA6A1FF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A229447-6EF1-4CB6-9F49-F07218F6AE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A229447-6EF1-4CB6-9F49-F07218F6AE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A229447-6EF1-4CB6-9F49-F07218F6AE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A229447-6EF1-4CB6-9F49-F07218F6AE5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,11 @@ namespace Brewery.Models
 
         public BeerData Data { get; set; }
 
+        public BeerRating()
+        {
+
+        }
+
         public BeerRating(int id, BeerData data)
         {
             Id = id;

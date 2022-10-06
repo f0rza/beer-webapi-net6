@@ -4,6 +4,9 @@ using Brewery.Repositories;
 
 namespace Brewery.Services
 {
+    /// <summary>
+    /// Handles user rating submission and beer search
+    /// </summary>
     public class BeerService : IBeerService
     {
         private readonly IBeerStorageClient _beerStorageClient;

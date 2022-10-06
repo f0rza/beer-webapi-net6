@@ -1,4 +1,5 @@
 using Brewery.Exceptions;
+using Brewery.Models;
 using Brewery.Models.DTO;
 using Brewery.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,23 +26,39 @@ namespace Brewery.API.Controllers
         /// <param name="id">valid beer id</param>
         /// <param name="beerData">username, rating (1 to 5) and comments</param>
         /// <returns></returns>
-        [HttpPost("AddRating/{id}")]
+        [HttpPost("{id}/AddRating")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> AddRating([Required][FromRoute] int id,
             [Required][FromBody] BeerData beerData)
         {
+            var beerRating = new Models.BeerRating(id, beerData);
+
             try
             {
-                await _beerService.AddRating(new Models.BeerRating(id, beerData));
+                await _beerService.AddRating(beerRating);
             }
             catch (BeerNotFoundException be)
             {
                 return NotFound(be.Message);
             }
 
-            return Ok();
+            return Created(string.Empty, beerRating);
+        }
+
+        /// <summary>
+        /// Gets list of matching beers along with user ratings
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [HttpGet("{name}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<IList<BeerDetailsWithRatings>>> GetList([Required][FromRoute] string name)
+        {
+            var list = await _beerService.GetList(name);
+
+            return Ok(list);
         }
     }
 }

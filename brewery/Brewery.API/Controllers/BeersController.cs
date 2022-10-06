@@ -16,12 +16,10 @@ namespace Brewery.API.Controllers
     [Route("api/v1/[controller]")]
     public class BeersController : ControllerBase
     {
-        private readonly ILogger<BeersController> _logger;
         private readonly IBeerService _beerService;
 
-        public BeersController(ILogger<BeersController> logger, IBeerService beerService)
+        public BeersController(IBeerService beerService)
         {
-            _logger = logger;
             _beerService = beerService;
         }
 

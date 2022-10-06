@@ -7,6 +7,9 @@ using RestSharp;
 
 namespace Brewery.Repositories
 {
+    /// <summary>
+    /// Service working with Punk API
+    /// </summary>
     public class BeerStorageClient : IBeerStorageClient
     {
         private readonly ILogger<BeerStorageClient> _logger;
@@ -21,14 +24,14 @@ namespace Brewery.Repositories
         }
 
         /// <summary>
-        /// Gets beer details from Punk API
+        /// Gets beer details
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="BeerNotFoundException"></exception>
         public async Task<BeerDetails> GetBeerDetails(int id)
         {
-            var request = new RestRequest($"beers/{id}");            
+            var request = new RestRequest($"beers/{id}");
             var response = await _client.GetAsync(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -36,7 +39,14 @@ namespace Brewery.Repositories
             else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 throw new BeerNotFoundException(response.Content);
 
-            return null; 
+            return null;
+        }
+
+        public async Task<IEnumerable<BeerDetails>> GetList(string name)
+        {
+            var request = new RestRequest($"beers?beer_name={name}");
+            
+            return await _client.GetAsync<IEnumerable<BeerDetails>>(request);
         }
     }
 }

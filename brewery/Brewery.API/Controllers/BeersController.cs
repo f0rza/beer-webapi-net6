@@ -7,14 +7,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Brewery.API.Controllers
 {
+    /// <summary>
+    /// API endpoints that allows to get list of beers and submit user rating
+    /// </summary>
+    /// <remarks>used Microsoft recommendations for Restful service naming conventions: https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design</remarks>
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class BeerController : ControllerBase
+    public class BeersController : ControllerBase
     {
-        private readonly ILogger<BeerController> _logger;
+        private readonly ILogger<BeersController> _logger;
         private readonly IBeerService _beerService;
 
-        public BeerController(ILogger<BeerController> logger, IBeerService beerService)
+        public BeersController(ILogger<BeersController> logger, IBeerService beerService)
         {
             _logger = logger;
             _beerService = beerService;
@@ -26,14 +30,14 @@ namespace Brewery.API.Controllers
         /// <param name="id">valid beer id</param>
         /// <param name="beerData">username, rating (1 to 5) and comments</param>
         /// <returns></returns>
-        [HttpPost("{id}/AddRating")]
+        [HttpPost("{id}/rate")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> AddRating([Required][FromRoute] int id,
             [Required][FromBody] BeerData beerData)
         {
-            var beerRating = new Models.BeerRating(id, beerData);
+            var beerRating = new BeerRating(id, beerData);
 
             try
             {

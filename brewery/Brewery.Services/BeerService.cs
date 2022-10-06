@@ -33,26 +33,12 @@ namespace Brewery.Services
         /// <returns></returns>
         public async Task<IList<BeerDetailsWithRatings>> GetList(string name)
         {
-            //throw new NotImplementedException();
+            var list = await _beerStorageClient.GetList(name);
 
-            var list = new List<BeerDetailsWithRatings>
-            {
-                new BeerDetailsWithRatings
-                {
-                    Id = 5,
-                    UserRatings = new List<BeerData>
-                    {
-                        new BeerData
-                        {
-                            Username = "t",
-                            Rating = 1,
-                            Comments = "2"
-                        }
-                    }
-                }
-            };
+            // todo - read ratings
 
-            return list;
+
+            return list.Select(x => new BeerDetailsWithRatings(x, new List<BeerData>())).ToList();
         }
     }
 }

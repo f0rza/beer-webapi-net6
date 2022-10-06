@@ -4,7 +4,7 @@ namespace Brewery.Models.DTO
 {
     public class BeerData
     {
-        public string? Username { get; set; }
+        public string Username { get; set; }
         
         [Required]
         [Range(1, 5)]

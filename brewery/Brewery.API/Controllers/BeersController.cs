@@ -1,3 +1,4 @@
+using Brewery.API.ActionFilters;
 using Brewery.Exceptions;
 using Brewery.Models;
 using Brewery.Models.DTO;
@@ -34,9 +35,13 @@ namespace Brewery.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ModelValidationErrorHandlerFilter]
         public async Task<ActionResult> AddRating([Required][FromRoute] int id,
             [Required][FromBody] BeerData beerData)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var beerRating = new BeerRating(id, beerData);
 
             try

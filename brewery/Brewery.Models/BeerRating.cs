@@ -2,6 +2,9 @@
 
 namespace Brewery.Models
 {
+    /// <summary>
+    /// Class implements record for JSON storage
+    /// </summary>
     public class BeerRating
     {
         public int Id { get; set; }

@@ -53,7 +53,7 @@ namespace Brewery.API.Controllers
                 return NotFound(be.Message);
             }
 
-            return Created(string.Empty, beerRating);
+            return Created(string.Empty, null);
         }
 
         /// <summary>

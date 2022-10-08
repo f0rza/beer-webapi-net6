@@ -12,7 +12,7 @@ namespace Brewery.API
             logger.Debug("init main");
 
             try
-            {
+            {                
                 var builder = WebApplication.CreateBuilder(args);
 
                 // NLog: Setup NLog for Dependency injection
@@ -23,10 +23,10 @@ namespace Brewery.API
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddOpenApiDocumentation();
-                builder.Services.AddSwaggerGen();
-
+                builder.Services.AddSwaggerGen();        
+               
                 var app = builder.Build();
-
+                
                 app.UseMiddleware<LogUnhandledExceptionMiddleware>();
                 app.UseOpenApiDocumentation();
                 app.UseAuthorization();

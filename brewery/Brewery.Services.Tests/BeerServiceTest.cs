@@ -2,13 +2,16 @@ using Brewery.Exceptions;
 using Brewery.Models;
 using Brewery.Models.DTO;
 using Brewery.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Newtonsoft.Json;
 
 namespace Brewery.Services.Tests
 {
     [TestClass]
     public class BeerServiceTest
     {
+        private Mock<ILogger<BeerService>> mockLogger;
         private Mock<IBeerStorageClient> mockBeerStorageClient;
         private Mock<ILocalFileRepository> mockLocalFileRepository;
         private BeerService beerService;
@@ -18,9 +21,15 @@ namespace Brewery.Services.Tests
         [TestInitialize]
         public void Init()
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+            mockLogger = new Mock<ILogger<BeerService>>();
             mockBeerStorageClient = new Mock<IBeerStorageClient>();
             mockLocalFileRepository = new Mock<ILocalFileRepository>();
-            beerService = new BeerService(mockBeerStorageClient.Object, mockLocalFileRepository.Object);
+            beerService = new BeerService(mockLogger.Object, mockBeerStorageClient.Object, mockLocalFileRepository.Object);
 
             beerDetails = Enumerable.Repeat(Mock.Of<BeerDetails>(), 10);
         }

@@ -42,7 +42,19 @@ Configurations saved in `appsettings.json`
    "ConnectionStrings": {
         "LocalFile": "database.json"
     }
-   ```   
+   ```
+### Log Configuration
+
+NLog is used for application logging. Configuration can be adjusted in **nlog.config**. By default log files created in  `Brewery.API\bin\[CurrentEnvironment]\net6.0\logs\`
+
+On controller level shown logging of errors and sample warning. 
+On service level added several debug logs.
+Repositories doesn't have logging as for now, but all unhandled exceptions are logged with a help of middleware.  
+
+### Unit tests
+
+Added several unit tests to demo MSTest / Moq.
+
 ### Third-Party Plugins
 Project implementation relies on these dependencies:
 * [`RestSharp`](https://www.nuget.org/packages/RestSharp)

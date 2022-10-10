@@ -21,14 +21,15 @@ namespace Brewery.Repositories
         /// <summary>
         /// Gets beer details
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">beer Id</param>
+        /// <param name="cancellationToken">cancellation token</param>
         /// <returns></returns>
         /// <exception cref="BeerNotFoundException"></exception>
-        public async Task<BeerDetails> GetBeerDetails(int id)
+        public async Task<BeerDetails> GetBeerDetails(int id, CancellationToken cancellationToken)
         {
             using var _client = GetClient();
             var request = new RestRequest($"beers/{id}");
-            var response = await _client.GetAsync(request);
+            var response = await _client.GetAsync(request, cancellationToken);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 return JsonConvert.DeserializeObject<IEnumerable<BeerDetails>>(response.Content).First();
@@ -41,14 +42,15 @@ namespace Brewery.Repositories
         /// <summary>
         /// Returns all beers matching the supplied name (this will match partial strings as well so e.g punk will return Punk IPA), if you need to add spaces just add an underscore (_).
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">search value</param>
+        /// <param name="cancellationToken">cancellation token</param>
         /// <returns></returns>
-        public async Task<IEnumerable<BeerDetails>> GetList(string name)
+        public async Task<IEnumerable<BeerDetails>> GetList(string name, CancellationToken cancellationToken)
         {
             using var _client = GetClient();
             var request = new RestRequest($"beers?beer_name={name}");
 
-            return await _client.GetAsync<IEnumerable<BeerDetails>>(request);
+            return await _client.GetAsync<IEnumerable<BeerDetails>>(request, cancellationToken);
         }
 
         /// <summary>

@@ -1,7 +1,6 @@
 ﻿using Brewery.Repositories;
 using Brewery.Services;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace Brewery.API
 {
@@ -33,7 +32,7 @@ namespace Brewery.API
         {
             services.AddScoped<IBeerService, BeerService>();
             services.AddScoped<IBeerStorageClient, BeerStorageClient>();
-            services.AddSingleton<ILocalFileRepository, LocalFileRepository>();
+            services.AddScoped<ILocalFileRepository, LocalFileRepository>();
         }
     }
 }

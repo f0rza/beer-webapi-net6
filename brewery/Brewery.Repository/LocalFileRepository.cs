@@ -25,28 +25,30 @@ namespace Brewery.Repositories
         /// <summary>
         /// Adds new rating to file
         /// </summary>
-        /// <param name="beerRating"></param>
+        /// <param name="beerRating">beer rating object</param>
+        /// <param name="cancellationToken">cancellation token</param>
         /// <returns></returns>
-        public async Task AddRating(BeerRating beerRating)
+        public async Task AddRating(BeerRating beerRating, CancellationToken cancellationToken)
         {
-            var list = await GetAllRatings();
+            var list = await GetAllRatings(cancellationToken);
 
             await using var fileStream = new FileStream(_fileName, FileMode.Create);
-            await JsonSerializer.SerializeAsync(fileStream, list.Append(beerRating), _options);
+            await JsonSerializer.SerializeAsync(fileStream, list.Append(beerRating), _options, cancellationToken);
         }
 
         /// <summary>
         /// Reads all ratings from file
         /// </summary>
+        /// <param name="cancellationToken">cancellation token</param>
         /// <returns></returns>
-        public async Task<IEnumerable<BeerRating>> GetAllRatings()
+        public async Task<IEnumerable<BeerRating>> GetAllRatings(CancellationToken cancellationToken)
         {
             await using var fileStream = new FileStream(_fileName, FileMode.OpenOrCreate);
 
             if (fileStream.Length == 0)
                 return new List<BeerRating>();
 
-            return await JsonSerializer.DeserializeAsync<IEnumerable<BeerRating>>(fileStream, _options);
+            return await JsonSerializer.DeserializeAsync<IEnumerable<BeerRating>>(fileStream, _options, cancellationToken);
         }
     }
 }

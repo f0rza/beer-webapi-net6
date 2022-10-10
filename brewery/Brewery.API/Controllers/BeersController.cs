@@ -38,7 +38,7 @@ namespace Brewery.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ModelValidationErrorHandlerFilter]
         public async Task<ActionResult> AddRating([Required][FromRoute] int id,
-            [Required][FromBody] BeerData beerData)
+            [Required][FromBody] BeerData beerData, CancellationToken cancellationToken)
         {
             try
             {
@@ -49,8 +49,7 @@ namespace Brewery.API.Controllers
 
                 var beerRating = new BeerRating(id, beerData);
 
-                await _beerService.AddRating(beerRating);
-
+                await _beerService.AddRating(beerRating, cancellationToken);
             }
             catch (BeerNotFoundException be)
             {
@@ -74,11 +73,11 @@ namespace Brewery.API.Controllers
         [HttpGet("{name}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IList<BeerDetailsWithRatings>>> GetList([Required][FromRoute] string name)
+        public async Task<ActionResult<IList<BeerDetailsWithRatings>>> GetList([Required][FromRoute] string name, CancellationToken cancellationToken)
         {
             try
             {
-                var list = await _beerService.GetList(name);
+                var list = await _beerService.GetList(name, cancellationToken);
 
                 return Ok(list);
             }

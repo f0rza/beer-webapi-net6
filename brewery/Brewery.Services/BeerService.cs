@@ -26,14 +26,15 @@ namespace Brewery.Services
         /// <summary>
         /// Adds rating after validation
         /// </summary>
-        /// <param name="beerRating"></param>
-        public async Task AddRating(BeerRating beerRating)
+        /// <param name="beerRating">beer rating object</param>
+        /// <param name="cancellationToken">cancellation token</param>
+        public async Task AddRating(BeerRating beerRating, CancellationToken cancellationToken)
         {                        
             _logger.LogDebug("Adding beer rating: {0}", JsonConvert.SerializeObject(beerRating));
 
-            var details = await _beerStorageClient.GetBeerDetails(beerRating.Id);
+            var details = await _beerStorageClient.GetBeerDetails(beerRating.Id, cancellationToken);
             if (details != null)
-                await _localFileRepository.AddRating(beerRating);
+                await _localFileRepository.AddRating(beerRating, cancellationToken);
 
             _logger.LogDebug("Added beer rating");
         }
@@ -41,14 +42,15 @@ namespace Brewery.Services
         /// <summary>
         /// Gets list of beers along with user ratings
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">search value</param>
+        /// <param name="cancellationToken">cancellation token</param>
         /// <returns></returns>
-        public async Task<IList<BeerDetailsWithRatings>> GetList(string name)
+        public async Task<IList<BeerDetailsWithRatings>> GetList(string name, CancellationToken cancellationToken)
         {
             _logger.LogDebug("Getting list of beers by name {0}", name);
 
-            var list = await _beerStorageClient.GetList(name);
-            var ratings = await _localFileRepository.GetAllRatings();
+            var list = await _beerStorageClient.GetList(name, cancellationToken);
+            var ratings = await _localFileRepository.GetAllRatings(cancellationToken);
 
             var beersWithRatings = list
                 .Select(x => new BeerDetailsWithRatings(x, ratings.Where(r => r.Id == x.Id).Select(r => r.Data).ToList()))

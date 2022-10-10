@@ -14,6 +14,7 @@ namespace Brewery.Services.Tests
         private Mock<ILogger<BeerService>> mockLogger;
         private Mock<IBeerStorageClient> mockBeerStorageClient;
         private Mock<ILocalFileRepository> mockLocalFileRepository;
+        private CancellationToken cancellationToken;
         private BeerService beerService;
 
         private IEnumerable<BeerDetails> beerDetails = new List<BeerDetails>();
@@ -29,8 +30,9 @@ namespace Brewery.Services.Tests
             mockLogger = new Mock<ILogger<BeerService>>();
             mockBeerStorageClient = new Mock<IBeerStorageClient>();
             mockLocalFileRepository = new Mock<ILocalFileRepository>();
+            cancellationToken = new CancellationToken();
             beerService = new BeerService(mockLogger.Object, mockBeerStorageClient.Object, mockLocalFileRepository.Object);
-
+            
             beerDetails = Enumerable.Repeat(Mock.Of<BeerDetails>(), 10);
         }
 
@@ -40,15 +42,15 @@ namespace Brewery.Services.Tests
             // Assign
             string name = "test";
 
-            mockBeerStorageClient.Setup(x => x.GetList(name)).ReturnsAsync(beerDetails); 
+            mockBeerStorageClient.Setup(x => x.GetList(name, new CancellationToken())).ReturnsAsync(beerDetails); 
 
             // Act
-            var result = await beerService.GetList(name);
+            var result = await beerService.GetList(name, cancellationToken);
 
             // Assert
             Assert.AreEqual(10, result.Count);
-            mockBeerStorageClient.Verify(m => m.GetList(name), Times.Once);
-            mockLocalFileRepository.Verify(m => m.GetAllRatings(), Times.Once);
+            mockBeerStorageClient.Verify(m => m.GetList(name, cancellationToken), Times.Once);
+            mockLocalFileRepository.Verify(m => m.GetAllRatings(cancellationToken), Times.Once);
         }
 
         [TestMethod]
@@ -57,15 +59,15 @@ namespace Brewery.Services.Tests
             // Assign
             string name = "test";
 
-            mockBeerStorageClient.Setup(x => x.GetList(name)).ReturnsAsync(new List<BeerDetails>());
+            mockBeerStorageClient.Setup(x => x.GetList(name, cancellationToken)).ReturnsAsync(new List<BeerDetails>());
 
             // Act
-            var result = await beerService.GetList(name);
+            var result = await beerService.GetList(name, cancellationToken);
 
             // Assert
             Assert.AreEqual(0, result.Count);
-            mockBeerStorageClient.Verify(m => m.GetList(name), Times.Once);
-            mockLocalFileRepository.Verify(m => m.GetAllRatings(), Times.Once);
+            mockBeerStorageClient.Verify(m => m.GetList(name, cancellationToken), Times.Once);
+            mockLocalFileRepository.Verify(m => m.GetAllRatings(cancellationToken), Times.Once);
         }
 
         [TestMethod]
@@ -76,14 +78,14 @@ namespace Brewery.Services.Tests
             var beerRating = Mock.Of<BeerRating>();
             beerRating.Id = beerDetails.Id;
 
-            mockBeerStorageClient.Setup(m => m.GetBeerDetails(beerDetails.Id)).ReturnsAsync(beerDetails);
+            mockBeerStorageClient.Setup(m => m.GetBeerDetails(beerDetails.Id, cancellationToken)).ReturnsAsync(beerDetails);
 
             // Act
-            await beerService.AddRating(beerRating);
+            await beerService.AddRating(beerRating, cancellationToken);
 
             // Assert
-            mockBeerStorageClient.Verify(m => m.GetBeerDetails(beerDetails.Id), Times.Once);
-            mockLocalFileRepository.Verify(m => m.AddRating(beerRating), Times.Once);
+            mockBeerStorageClient.Verify(m => m.GetBeerDetails(beerDetails.Id, cancellationToken), Times.Once);
+            mockLocalFileRepository.Verify(m => m.AddRating(beerRating, cancellationToken), Times.Once);
         }
 
         [TestMethod]
@@ -93,12 +95,10 @@ namespace Brewery.Services.Tests
             // Assign
             var beerRating = Mock.Of<BeerRating>(); 
 
-            mockBeerStorageClient.Setup(m => m.GetBeerDetails(beerRating.Id)).ThrowsAsync(new BeerNotFoundException());
+            mockBeerStorageClient.Setup(m => m.GetBeerDetails(beerRating.Id, cancellationToken)).ThrowsAsync(new BeerNotFoundException());
 
             // Act
-            await beerService.AddRating(beerRating);
+            await beerService.AddRating(beerRating, cancellationToken);
         }
     }
-
-
 }

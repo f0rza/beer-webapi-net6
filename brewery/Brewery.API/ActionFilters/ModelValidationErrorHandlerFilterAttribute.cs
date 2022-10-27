@@ -12,7 +12,7 @@ namespace Brewery.API.ActionFilters
     {
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var beerData = context.ActionArguments["beerData"] as BeerData;
+            var beerData = context.ActionArguments["beerData"] as BeerUserRating;
             if (beerData != null)
             {
                 var regex = new Regex("^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");

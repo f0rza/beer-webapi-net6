@@ -6,7 +6,7 @@ namespace Brewery.Models.DTO
     /// Relfects data collected from user
     /// </summary>
     /// <remarks>DataAnnotations attributes used to handle model validation</remarks>
-    public class BeerData
+    public class BeerUserRating
     {
         public string Username { get; set; }
         

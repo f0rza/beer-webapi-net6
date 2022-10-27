@@ -36,7 +36,7 @@ namespace Brewery.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ModelValidationErrorHandlerFilter]
         public async Task<ActionResult> AddRating([Required][FromRoute] int id,
-            [Required][FromBody] BeerData beerData, CancellationToken cancellationToken)
+            [Required][FromBody] BeerUserRating beerData, CancellationToken cancellationToken)
         {
             try
             {

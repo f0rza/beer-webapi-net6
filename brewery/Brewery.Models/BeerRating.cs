@@ -9,14 +9,14 @@ namespace Brewery.Models
     {
         public int Id { get; set; }
 
-        public BeerData Data { get; set; }
+        public BeerUserRating Data { get; set; }
 
         public BeerRating()
         {
 
         }
 
-        public BeerRating(int id, BeerData data)
+        public BeerRating(int id, BeerUserRating data)
         {
             Id = id;
             Data = data;

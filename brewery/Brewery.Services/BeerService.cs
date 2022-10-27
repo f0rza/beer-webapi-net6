@@ -1,4 +1,5 @@
-﻿using Brewery.Models;
+﻿using Brewery.Exceptions;
+using Brewery.Models;
 using Brewery.Models.DTO;
 using Brewery.Repositories;
 using Microsoft.Extensions.Logging;
@@ -35,6 +36,8 @@ namespace Brewery.Services
             var details = await _beerStorageClient.GetBeerDetails(beerRating.Id, cancellationToken);
             if (details != null)
                 await _localFileRepository.AddRating(beerRating, cancellationToken);
+            else
+                throw new BeerNotFoundException($"Not found {beerRating.Id}");
 
             _logger.LogDebug("Added beer rating");
         }

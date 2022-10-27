@@ -36,7 +36,7 @@ namespace Brewery.API.Tests
         {
             // Arrange            
             actionExecutingContext.ActionArguments.Clear();
-            actionExecutingContext.ActionArguments.Add("beerData", new BeerData { Username = "test@ua.fm" });
+            actionExecutingContext.ActionArguments.Add("beerData", new BeerUserRating { Username = "test@ua.fm" });
 
             ActionExecutionDelegate d = Mock.Of<ActionExecutionDelegate>();
 
@@ -52,7 +52,7 @@ namespace Brewery.API.Tests
         {
             // Arrange            
             actionExecutingContext.ActionArguments.Clear();
-            actionExecutingContext.ActionArguments.Add("beerData", new BeerData { Username = "test" });
+            actionExecutingContext.ActionArguments.Add("beerData", new BeerUserRating { Username = "test" });
 
             ActionExecutionDelegate d = Mock.Of<ActionExecutionDelegate>();
 

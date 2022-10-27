@@ -9,14 +9,14 @@ namespace Brewery.Models.DTO
     public class BeerDetailsWithRatings: BeerDetails
     {
         [JsonPropertyOrder(int.MaxValue)]
-        public IList<BeerData> UserRatings { get; set; }
+        public IList<BeerUserRating> UserRatings { get; set; }
 
         public BeerDetailsWithRatings()
         {
 
         }
 
-        public BeerDetailsWithRatings(BeerDetails beerDetails, IList<BeerData> userRatings)
+        public BeerDetailsWithRatings(BeerDetails beerDetails, IList<BeerUserRating> userRatings)
         {            
             Id = beerDetails.Id;
             Name = beerDetails.Name;
